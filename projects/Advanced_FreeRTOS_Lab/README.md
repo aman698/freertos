@@ -144,6 +144,58 @@ Project Properties → C/C++ Build → Settings → MCU GCC Compiler → Include
 
 ---
 
+## Debugger Practice (Capstone)
+
+**Guide:** [`docs/DEBUGGING_GUIDE.md`](../../docs/DEBUGGING_GUIDE.md) — full L1–L5 curriculum  
+**Level:** L4–L5 Expert integration
+
+### System map — where to break
+
+| Module | Function / line | Teaches |
+|--------|-----------------|---------|
+| `app_events.c` | EXTI / notify | ISR → notification |
+| `app_sensor.c` | timer callback | Timer service context |
+| `app_command.c` | stream receive | Byte stream CLI |
+| `freertos.c` | `processTask` wait on event group | Multi-bit sync |
+| `app_monitor.c` | 10 s report | Periodic + HWM |
+
+### Watch panel (save as Expression group)
+```
+xPortGetFreeHeapSize()
+xEventGroupGetBits(xEventGroupHandle)
+uxTaskGetStackHighWaterMark(NULL)
+GPIOC->IDR & GPIO_PIN_13
+```
+
+### Step drill — boot sequence
+1. Break on `xEventGroupWaitBits` in process task — **Blocked** until SENSOR + COMM + BTN bits
+2. **Resume** as subsystems start — watch bits in Expressions
+3. Type `STATUS` in UART — break in command parser — **Step Through** status print
+
+### Step drill — cross-module
+1. Press button → break in event path → **Step Return** to ISR → **Resume**
+2. `processTask` wakes — **Step Over** LED / event handling
+3. `SAMPLE` command → sensor queue → process task receive
+
+### Advanced sessions
+
+| Session | Technique |
+|---------|-----------|
+| **Deadlock hunt** | Suspend on intentional bug; Task List + Call Stack |
+| **Stack budget** | Shrink `processTask` stack; overflow hook + `pcTaskName` |
+| **Timing** | DWT `CYCCNT` around sensor path ([`DEBUGGING_GUIDE`](../../docs/DEBUGGING_GUIDE.md) Part 7) |
+| **Live queue depth** | Live expression on sensor queue waiting count during `SAMPLE` spam |
+
+### Verify (debugger)
+| Check | Pass? |
+|-------|-------|
+| All tasks visible in Task List | |
+| Event bits match UART `STATUS` | |
+| Button path ISR → task without fault | |
+| 30 min run: no drift in heap Expressions | |
+
+---
+
 ## File List
 
 ```

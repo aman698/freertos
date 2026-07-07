@@ -58,3 +58,37 @@ Use `xEventGroupSetBitsFromISR()` — never `SetBits()` in ISR.
   commInit   ──► SET_BIT_COMM   ──┼──► EventGroup ──► mainTask
   calInit    ──► SET_BIT_CAL    ──┘
 ```
+
+---
+
+## Debugger Practice
+
+**Guide:** [`docs/DEBUGGING_GUIDE.md`](../../docs/DEBUGGING_GUIDE.md) Part 5  
+**Level:** L3 RTOS (event groups)
+
+### Breakpoints
+| Where | Why |
+|-------|-----|
+| `xEventGroupSetBits` in each init task | Bit setter |
+| `xEventGroupWaitBits` in main task | Blocks until mask satisfied |
+| Line after wait returns | All bits ready |
+
+### Watch expressions
+```
+xEventGroupGetBits(eventGroupHandle)   // use your handle name from freertos.c
+xTaskGetTickCount()
+```
+
+### Step drill
+1. Breakpoint on `xEventGroupWaitBits` — **Step Into** once — see blocking when bits missing
+2. **Resume** — as each init task sets bits, re-break at Wait (or use conditional: all bits set)
+3. **Expressions:** event bits increment: `0x01`, `0x03`, `0x07` style progression
+
+### Modify + debug
+Change wait to **ANY** bit (`pdFALSE` for wait-for-all) — main unblocks after first SetBits; observe with single breakpoint on wake.
+
+### Verify (debugger)
+| Check | Pass? |
+|-------|-------|
+| Main blocked at boot in Task List | |
+| All bits set before main leaves wait | |

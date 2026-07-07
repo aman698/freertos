@@ -121,3 +121,45 @@ printf("Press #%lu\r\n", pressId);
                               │  Toggle PA5  │
                               └──────────────┘
 ```
+
+---
+
+## Debugger Practice
+
+**Guide:** [`docs/DEBUGGING_GUIDE.md`](../../docs/DEBUGGING_GUIDE.md) Part 5–6  
+**Level:** L2 Intermediate (ISR + queues)
+
+### Breakpoints
+| Where | Why |
+|-------|-----|
+| `Button_ISR_SendEventFromISR` | ISR → queue path |
+| `StartButtonDebounceTask` — after `xQueueReceive` | Consumer woke from ISR |
+| `StartLedConsumerTask` — after `xQueueReceive` | Final pipeline stage |
+
+### Watch expressions
+```
+pressId
+uxQueueMessagesWaiting(rawIsrQueue)
+uxQueueMessagesWaiting(debouncedQueue)
+GPIOC->IDR & GPIO_PIN_13
+```
+
+### Step drill — ISR path
+1. Resume; press blue button → halt in ISR function
+2. **Step Over** `xQueueSendFromISR` → watch `uxQueueMessagesWaiting(rawIsrQueue)` increment
+3. **Step Over** `portYIELD_FROM_ISR` → **Resume** → debounce task may run
+4. In debounce task: **Step Into** `osDelay(DEBOUNCE_MS)` once to see blocking debounce
+
+### Step drill — pipeline
+1. Breakpoint after `pressId++` and `xQueueSend` to `debouncedQueue`
+2. **Expressions:** `pressId` — conditional breakpoint `pressId == 3` (advanced)
+
+### Theory check
+- Why **Step Into** `HAL_GPIO_ReadPin` in task but only **Step Over** in ISR? (ISR time budget)
+
+### Verify (debugger)
+| Check | Pass? |
+|-------|-------|
+| ISR fires once per press | |
+| `rawIsrQueue` depth 0→1→0 after debounce reads | |
+| `pressId` increments in LED task | |

@@ -39,3 +39,38 @@ Pass press count as notification value:
 ```c
 xTaskNotify(workerHandle, count, eSetValueWithOverwrite);
 ```
+
+---
+
+## Debugger Practice
+
+**Guide:** [`docs/DEBUGGING_GUIDE.md`](../../docs/DEBUGGING_GUIDE.md) Part 5  
+**Level:** L3 RTOS (task notifications)
+
+### Breakpoints
+| Where | Why |
+|-------|-----|
+| `vTaskNotifyGiveFromISR` or EXTI path | ISR signals worker |
+| `ulTaskNotifyTake` in worker | Blocks until notify |
+| After take succeeds | Count decremented |
+
+### Watch expressions
+```
+workerHandle
+ulTaskNotifyValue(workerHandle)   // if API available; else step and watch locals
+count
+```
+
+### Step drill
+1. Worker blocked on `ulTaskNotifyTake` — Task List shows **Blocked**
+2. Press button → ISR notify → **Resume** → worker **Ready**
+3. **Step Over** `ulTaskNotifyTake` — returns with notification consumed
+
+### Compare to semaphore
+Same drill as Example 04 but **Expressions** show no separate semaphore object — notification lives in TCB.
+
+### Verify (debugger)
+| Check | Pass? |
+|-------|-------|
+| Worker blocks without button | |
+| One notify wakes worker per press | |

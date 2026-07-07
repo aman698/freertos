@@ -83,3 +83,43 @@ if (xSemaphoreTake(uartMutex, pdMS_TO_TICKS(100)) == pdTRUE) {
     xSemaphoreGive(uartMutex);
 }
 ```
+
+---
+
+## Debugger Practice
+
+**Guide:** [`docs/DEBUGGING_GUIDE.md`](../../docs/DEBUGGING_GUIDE.md) Part 6 (mutex)  
+**Level:** L2 Intermediate
+
+### Breakpoints
+| Where | Why |
+|-------|-----|
+| `SafePrintf` — on `xSemaphoreTake` line | Mutex contention |
+| `SafePrintf` — on `xSemaphoreGive` line | Release point |
+| `StartFastPrintTask` / `StartSlowPrintTask` loops | Two competitors |
+
+### Watch expressions
+```
+uartMutex
+huart2.gState
+xTaskGetCurrentTaskHandle()
+```
+
+### Step drill — mutex blocking
+1. Breakpoint at `xSemaphoreTake` in `SafePrintf`
+2. When **fast** task holds mutex, **Resume** until **slow** task hits Take → task **Blocked** in Task List
+3. **Step Over** remaining lines in fast task through **Give**
+4. Resume — slow task should pass Take on next hit
+
+### Step Into vs Over
+- **Step Into** `xSemaphoreTake` — see FreeRTOS semaphore logic once
+- **Step Over** `HAL_UART_Transmit` — UART is trusted; focus on mutex
+
+### Experiment
+Comment out Take/Give (see Verify section) → both tasks run — use **Suspend** at random; garbled `buf` in Variables if race occurs
+
+### Verify (debugger)
+| Check | Pass? |
+|-------|-------|
+| Only one task inside Take…Give at a time | |
+| Blocked task wakes after Give | |

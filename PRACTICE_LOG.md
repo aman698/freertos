@@ -20,6 +20,13 @@ Copy this section each day into your notebook or append below.
 - [ ]
 - [ ]
 
+### Debugger (STM32CubeIDE)
+- Breakpoints set:
+- Watch expressions used:
+- Step drill done (Into / Over / Return):
+- FreeRTOS Task List observation:
+- Reference: [`docs/DEBUGGING_GUIDE.md`](docs/DEBUGGING_GUIDE.md)
+
 ### Modify experiment (what I changed + result)
 | Change | Result |
 |--------|--------|

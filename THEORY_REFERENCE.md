@@ -240,20 +240,79 @@ See Example 12 notes in ADVANCED_PRACTICE_GUIDE.
 
 ## 12. Debugging & Asserts
 
+**Hands-on guide:** [`docs/DEBUGGING_GUIDE.md`](docs/DEBUGGING_GUIDE.md) — STM32CubeIDE, SWD/ST-LINK, step in/out, watch expressions, FreeRTOS views.
+
+### On-chip debug (theory)
+
+| Term | Meaning |
+|------|---------|
+| **SWD** | 2-wire ARM debug (SWDIO/SWCLK) — default on STM32 |
+| **JTAG** | 4-wire legacy; same DAP, more pins |
+| **ST-LINK** | USB bridge on Nucleo — flash + debug + virtual COM |
+| **DAP** | Debug Access Port inside MCU — GDB talks through it |
+| **Halt** | CPU frozen; inspect RAM/registers; ISRs do not run |
+| **Resume** | Real-time execution; RTOS scheduler runs |
+
+CubeMX **SYS → Debug → Serial Wire** keeps PA13/PA14 for SWD. If set to Disable, the debugger cannot attach.
+
+### STM32CubeIDE stepping (theory)
+
+| Action | Effect |
+|--------|--------|
+| **Step Over** | Execute one source line; callee runs to completion |
+| **Step Into** | Enter function on current line (HAL, FreeRTOS, your code) |
+| **Step Return** | Run until current function returns to caller |
+| **Breakpoint** | Halt before line executes |
+
+**FreeRTOS note:** Stepping in `osDelay` enters `vTaskDelay` — task moves to **Blocked** state; another task may run when you **Resume**.
+
+### Runtime asserts & hooks
+
 ```c
-configASSERT(x)  → trap on failure
+configASSERT(x)  → trap on failure (halt in debugger)
 configCHECK_FOR_STACK_OVERFLOW = 2
 vApplicationStackOverflowHook()
 vApplicationMallocFailedHook()
 ```
 
-### Useful APIs
+Set breakpoint in overflow hook; inspect `pcTaskName` and `uxTaskGetStackHighWaterMark(xTask)`.
+
+### Useful APIs (call from Expressions while halted)
+
 ```c
 uxTaskGetStackHighWaterMark(NULL)
 xPortGetFreeHeapSize()
 xPortGetMinimumEverFreeHeapSize()
+uxQueueMessagesWaiting(queueHandle)
 vTaskList(buffer)
 vTaskGetRunTimeStats(buffer)  // needs configGENERATE_RUN_TIME_STATS
+```
+
+### FreeRTOS debug config
+
+```
+configUSE_TRACE_FACILITY = 1     // Task List view in CubeIDE
+configCHECK_FOR_STACK_OVERFLOW = 2
+configASSERT( ( x ) )             // defined in FreeRTOSConfig.h
+```
+
+### Common fault causes (debugger investigation)
+
+| Fault location | Likely cause |
+|----------------|--------------|
+| `prvTaskExitError` | Task returned — missing `for(;;)` |
+| Inside `FromISR` API from task | Wrong API variant |
+| `printf` / deep call stack | Stack size too small |
+| `xQueueSend` with NULL handle | Create failed or wrong scope |
+| Hang, no fault | Deadlock — Suspend CPU, check Task List **Blocked** tasks |
+
+### Watch expression examples
+
+```c
+xTaskGetTickCount()
+GPIOC->IDR & GPIO_PIN_13          // button state
+uxQueueMessagesWaiting(rawIsrQueue)
+xSemaphoreGetMutexHolder(uartMutex) // NULL = not held
 ```
 
 ---

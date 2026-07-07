@@ -57,3 +57,39 @@ Simulate longer critical section:
 osDelay(2000);  // inside "IN section"
 ```
 Queue of waiting workers becomes visible in UART.
+
+---
+
+## Debugger Practice
+
+**Guide:** [`docs/DEBUGGING_GUIDE.md`](../../docs/DEBUGGING_GUIDE.md) Part 6  
+**Level:** L3 RTOS (counting semaphore)
+
+### Breakpoints
+| Where | Why |
+|-------|-----|
+| `xSemaphoreTake(slotSem, …)` in worker | Pool exhaustion |
+| `xSemaphoreGive(slotSem)` after critical section | Slot release |
+| Line printing `>>> IN critical section` | Max 3 concurrent |
+
+### Watch expressions
+```
+id
+uxSemaphoreGetCount(slotSem)
+```
+
+Note: `uxSemaphoreGetCount` needs semaphore handle in scope — add as global or inspect via GDB when halted at Take.
+
+### Step drill
+1. **Resume** with 5 workers — breakpoint when 4th worker blocks on Take
+2. **FreeRTOS Task List** — count **Blocked** workers (waiting for slot)
+3. When worker **Gives**, **Resume** — one blocked worker becomes **Ready**
+
+### Advanced
+Conditional breakpoint on worker `id == 4` only — reduces noise.
+
+### Verify (debugger)
+| Check | Pass? |
+|-------|-------|
+| `uxSemaphoreGetCount` 0 when 3 workers inside critical section | |
+| Blocked workers wake after Give | |

@@ -1,0 +1,7 @@
+#ifndef EX04_DEMO_CONFIG_H
+#define EX04_DEMO_CONFIG_H
+
+#define BOARD_NAME "NUCLEO-F411RE"
+#define LED_PIN    5U
+
+#endif /* EX04_DEMO_CONFIG_H */

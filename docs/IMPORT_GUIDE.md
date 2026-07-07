@@ -53,9 +53,21 @@ Project → Properties → C/C++ Build → Settings → MCU GCC Compiler → Inc
 - Project → Build All
 - Fix: missing `UartDebug_Init` → add `uart_debug.c` to project
 
-### 5. Run
-- Run → Debug
-- Serial terminal 115200 on ST-LINK COM port
+### 5. Debug (recommended before serial-only Run)
+
+1. **Run → Debug (F11)** — not Run (Ctrl+F11) on first pass
+2. CubeMX must have **SYS → Debug → Serial Wire**
+3. Complete **Debugger Practice** section in that example's `README.md`
+4. Full theory: [`DEBUGGING_GUIDE.md`](DEBUGGING_GUIDE.md)
+
+| First-time check | Pass? |
+|------------------|-------|
+| Halts at `main()` or `Reset_Handler` | |
+| **FreeRTOS Task List** shows tasks (after `osKernelStart`) | |
+| **Step Over (F6)** advances one line | |
+| Breakpoint in task hits when code runs | |
+
+Serial terminal: 115200 on ST-LINK COM port (independent of debugger halt).
 
 ---
 
@@ -111,6 +123,9 @@ CubeMX configure pins
         │
         ▼
 Copy files (this doc)
+        │
+        ▼
+Build → Debug (F11) → DEBUGGER PRACTICE
         │
         ▼
 Build → Flash → VERIFY checklist

@@ -71,3 +71,44 @@ xTimerCreate ──► BlinkTimerCallback ──► HAL_GPIO_TogglePin (500ms)
 
 PC13 EXTI ──► GiveFromISR(buttonSem) ──► Worker Task ──► debounce + printf
 ```
+
+---
+
+## Debugger Practice
+
+**Guide:** [`docs/DEBUGGING_GUIDE.md`](../../docs/DEBUGGING_GUIDE.md) Part 5–6  
+**Level:** L2–L3 (timer service + ISR + semaphore)
+
+### Breakpoints
+| Where | Why |
+|-------|-----|
+| Timer callback — `HAL_GPIO_TogglePin` | Runs in **Timer Service Task** context |
+| EXTI / `GiveFromISR` path | ISR deferral |
+| Worker task after `xSemaphoreTake` | Task woken by semaphore |
+
+### Watch expressions
+```
+buttonSem
+xTaskGetTickCount()
+// Timer handle name from your freertos.c (e.g. blinkTimerHandle)
+```
+
+### Step drill — timer context
+1. Breakpoint in timer **callback** (not `xTimerCreate`)
+2. When hit, check **Call Stack** — parent is timer service task, not your worker
+3. **Step Over** callback body — must stay short (theory: < 1 ms work)
+
+### Step drill — ISR → semaphore
+1. Breakpoint on `xSemaphoreGiveFromISR`
+2. Press button → **Step Over** Give and `portYIELD_FROM_ISR`
+3. **Resume** → worker task takes semaphore
+
+### Theory check
+**Step Into** `xTimerStart` from `MX_FREERTOS_Init` — initialization only; timer fires later in different context.
+
+### Verify (debugger)
+| Check | Pass? |
+|-------|-------|
+| Timer callback hits every 500 ms without button | |
+| Button hit runs ISR path then worker | |
+| LED blink does not stop while stepping worker (Resume between presses) | |

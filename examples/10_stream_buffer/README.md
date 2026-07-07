@@ -47,3 +47,38 @@ Type in serial terminal (115200), end with Enter.
 
 ## Modify
 - Stream size 32 → send 64-char line → observe truncation/block
+
+---
+
+## Debugger Practice
+
+**Guide:** [`docs/DEBUGGING_GUIDE.md`](../../docs/DEBUGGING_GUIDE.md) Part 6–7  
+**Level:** L3–L4 (stream buffer + CLI)
+
+### Breakpoints
+| Where | Why |
+|-------|-----|
+| UART RX callback / byte push to stream | Producer |
+| Stream receive in parser task | Consumer |
+| Command handler e.g. `LED ON` | Application logic |
+
+### Watch expressions
+```
+xStreamBufferBytesAvailable(streamHandle)
+xStreamBufferSpacesAvailable(streamHandle)
+line[0]   // at parser breakpoint
+```
+
+### Step drill
+1. Type `STATUS` in terminal — halt when bytes enter stream buffer
+2. **Step Over** receive loop assembling `line`
+3. **Step Into** command strcmp branch — **Step Return** after handler
+
+### Advanced — live expressions
+Enable live update on `xStreamBufferBytesAvailable` while typing — see buffer fill (may jitter under RTOS).
+
+### Verify (debugger)
+| Check | Pass? |
+|-------|-------|
+| Bytes available > 0 after typing | |
+| `line` contains full command at parse | |

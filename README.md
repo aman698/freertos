@@ -11,6 +11,7 @@ Complete hands-on curriculum: **20 days**, **13 examples**, **1 full capstone pr
 | **Basic** | [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) | 1–10 | Tasks → mutex → timers |
 | **Advanced** | [`ADVANCED_PRACTICE_GUIDE.md`](ADVANCED_PRACTICE_GUIDE.md) | 11–20 | Event groups → capstone |
 | **Theory** | [`THEORY_REFERENCE.md`](THEORY_REFERENCE.md) | All | Deep concepts |
+| **Debugger** | [`docs/DEBUGGING_GUIDE.md`](docs/DEBUGGING_GUIDE.md) | All | SWD/ST-LINK, step in/out, watch |
 | **Config** | [`docs/FREERTOS_CONFIG_GUIDE.md`](docs/FREERTOS_CONFIG_GUIDE.md) | 11+ | CubeMX settings |
 
 **Logs:** [`PRACTICE_LOG.md`](PRACTICE_LOG.md) | [`PRACTICE_LOG_ADVANCED.md`](PRACTICE_LOG_ADVANCED.md)
@@ -67,14 +68,16 @@ common/
 1. Read day section in `PRACTICE_GUIDE.md` or `ADVANCED_PRACTICE_GUIDE.md`
 2. Read matching section in `THEORY_REFERENCE.md`
 3. Read `examples/XX/README.md`
+4. New to debugger? Read [`docs/DEBUGGING_GUIDE.md`](docs/DEBUGGING_GUIDE.md) Part 1–3 first
 
 ### Code side (hands-on)
 1. Create / reuse CubeMX project `FreeRTOS_Practice`
 2. Copy `freertos.c` + `main_user_code.c` for that day
 3. Advanced: add `common/*.c` and `app/*.c` modules
-4. Build → flash → verify checklist
-5. Run **Modify** experiments in README
-6. Fill practice log
+4. Build → **Debug (F11)** → run **Debugger Practice** in example README
+5. Build → flash → verify checklist
+6. Run **Modify** experiments in README
+7. Fill practice log
 
 ### Files you edit in CubeIDE
 ```

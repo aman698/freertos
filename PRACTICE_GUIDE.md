@@ -44,6 +44,22 @@ configCHECK_FOR_STACK_OVERFLOW = 2
 2. Build (hammer icon) → Run (play icon)
 3. LED should do nothing yet — that is OK. Toolchain works.
 
+### Step E — Debugger setup (do once; practice every day)
+
+**Full guide:** [`docs/DEBUGGING_GUIDE.md`](docs/DEBUGGING_GUIDE.md)
+
+| Topic | Setting / action |
+|-------|------------------|
+| CubeMX debug | **SYS → Debug → Serial Wire** (already in Step B) |
+| Launch | **Run → Debug (F11)** — downloads firmware and halts CPU |
+| Step controls | F6 Over, F5 Into, F7 Return, F8 Resume |
+| Watch | **Window → Show View → Expressions** |
+| RTOS | `configUSE_TRACE_FACILITY = 1` → **FreeRTOS Task List** view |
+
+**Day 1 minimum drill:** After flashing Example 01, set breakpoint in `StartLedTask` → F11 → F6 step through `HAL_GPIO_TogglePin` and `osDelay` → open Task List → see `ledTask` **Blocked** during delay.
+
+Each example README has a **Debugger Practice** section — complete it the same day as the code lab.
+
 ### Files you will edit every day
 
 | File | What you change |

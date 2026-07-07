@@ -22,6 +22,12 @@
 ### Hardware observation
 -
 
+### Debugger session
+- Level (L1–L5 from DEBUGGING_GUIDE):
+- Breakpoints / watch / step drills completed:
+- Advanced technique tried (conditional BP, suspend deadlock, DWT, live expr):
+- [`docs/DEBUGGING_GUIDE.md`](docs/DEBUGGING_GUIDE.md) section:
+
 ### Experiment & result
 | Changed | Result |
 |---------|--------|

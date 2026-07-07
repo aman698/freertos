@@ -78,3 +78,42 @@ HAL_UART_Receive_IT(&huart2, &rxByte, 1);
 ## If you complete this
 
 You have implemented the classic **ISR → queue → task** pattern twice (GPIO + UART).
+
+---
+
+## Debugger Practice
+
+**Guide:** [`docs/DEBUGGING_GUIDE.md`](../../docs/DEBUGGING_GUIDE.md) Part 6 (ISR)  
+**Level:** L3–L5 (UART ISR + queue)
+
+### Breakpoints
+| Where | Why |
+|-------|-----|
+| `HAL_UART_RxCpltCallback` | Per-byte ISR |
+| `xQueueSendFromISR` for `uartRxQueue` | Defer to parser |
+| Parser task `xQueueReceive` | Consumer |
+
+### Watch expressions
+```
+rxByte
+uxQueueMessagesWaiting(uartRxQueue)
+huart2.RxState
+```
+
+### Step drill
+1. Type one character in serial terminal → halt in RX callback
+2. **Step Over** `xQueueSendFromISR` — queue depth +1
+3. **Step Over** `HAL_UART_Receive_IT` re-arm
+4. **Resume** → parser task receives `rxByte`
+
+### Advanced — flood test
+Rapid typing → **Suspend** during flood → `uxQueueMessagesWaiting` near queue length → risk of drop if full.
+
+### Theory check
+**Never Step Into** `printf` from ISR — if you added one by mistake, see block time stretch (bad practice demo).
+
+### Verify (debugger)
+| Check | Pass? |
+|-------|-------|
+| One ISR hit per byte | |
+| Parser `rxByte` matches typed key | |

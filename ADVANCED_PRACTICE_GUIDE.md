@@ -4,6 +4,8 @@
 
 **Goal:** Production-grade patterns — event groups, notifications, stream buffers, queue sets, DMA UART, deadlock awareness, and a **full capstone project**.
 
+**Debugger:** Complete the **Debugger Practice** section in each example README. Master reference: [`docs/DEBUGGING_GUIDE.md`](docs/DEBUGGING_GUIDE.md) (SWD/ST-LINK, JTAG theory, watch expressions, step in/out/return, FreeRTOS Task List, deadlock suspend).
+
 ---
 
 ## Advanced CubeMX Config (update before Day 11)
