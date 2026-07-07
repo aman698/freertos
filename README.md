@@ -11,6 +11,9 @@ Complete hands-on curriculum: **20 days**, **13 examples**, **1 full capstone pr
 | **Basic** | [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) | 1–10 | Tasks → mutex → timers |
 | **Advanced** | [`ADVANCED_PRACTICE_GUIDE.md`](ADVANCED_PRACTICE_GUIDE.md) | 11–20 | Event groups → capstone |
 | **Theory** | [`THEORY_REFERENCE.md`](THEORY_REFERENCE.md) | All | Deep concepts |
+| **Interview Prep** | [`FREERTOS_INTERVIEW_PREP.md`](FREERTOS_INTERVIEW_PREP.md) | All | Oral questions + coding drills |
+| **Embedded C** | [`c_practice/`](c_practice/) | 15 topics | C fundamentals for firmware |
+| **DSA in C** | [`dsa_practice/`](dsa_practice/) | 10 topics | Data structures + algorithms |
 | **Debugger** | [`docs/DEBUGGING_GUIDE.md`](docs/DEBUGGING_GUIDE.md) | All | SWD/ST-LINK, step in/out, watch |
 | **Config** | [`docs/FREERTOS_CONFIG_GUIDE.md`](docs/FREERTOS_CONFIG_GUIDE.md) | 11+ | CubeMX settings |
 
@@ -47,7 +50,7 @@ common/
 | 04 | `04_timer_semaphore_isr` | Timer + semaphore |
 | 05 | `05_counting_semaphore` | Resource pool |
 | 06 | `06_stack_monitor` | Stack/heap |
-| 07 | `07_uart_isr_queue` | UART ISR challenge |
+| 07 | `07_uart_isr_queue` | UART ISR -> queue parser |
 
 ### Advanced (Days 11–20)
 | # | Folder | Topic |
@@ -115,3 +118,5 @@ App/Src/*.c              ← capstone only
 **Today:** Open [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) Day 1 if new, or [`ADVANCED_PRACTICE_GUIDE.md`](ADVANCED_PRACTICE_GUIDE.md) Day 11 if basics done.
 
 **End goal:** Complete [`projects/Advanced_FreeRTOS_Lab/README.md`](projects/Advanced_FreeRTOS_Lab/README.md) capstone.
+
+**Interview goal:** Work through [`FREERTOS_INTERVIEW_PREP.md`](FREERTOS_INTERVIEW_PREP.md) and explain every synchronization choice without notes.

@@ -1,7 +1,12 @@
 # Example 07 — UART ISR → Queue (Optional Day 9 Challenge)
 
 **Day:** 9 (advanced optional)  
-**Not a full standalone project** — extension after Example 02.
+Full source is provided:
+
+| File | Purpose |
+|------|---------|
+| [`freertos.c`](freertos.c) | Queue, parser task, and command handling |
+| [`main_user_code.c`](main_user_code.c) | `main.c` USER CODE snippets for UART RX interrupt |
 
 ---
 
@@ -28,7 +33,7 @@ Parser task:
 
 ---
 
-## Skeleton — main.c USER CODE
+## Key snippet — main.c USER CODE
 
 ```c
 uint8_t rxByte;
@@ -44,7 +49,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 }
 ```
 
-## Skeleton — freertos.c
+## Key snippet — freertos.c
 
 ```c
 uartRxQueue = xQueueCreate(32, sizeof(uint8_t));
