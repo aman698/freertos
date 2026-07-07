@@ -1,0 +1,37 @@
+# Example 12 — Priority Inversion & Deadlock
+
+**Day 15** | Intentional bugs + fixes.
+
+---
+
+## Theory (deep)
+
+### Priority inversion scenario (this lab)
+1. `lowTask` takes `mutexL`
+2. `highTask` tries `mutexL` → blocks
+3. `mediumTask` runs (no mutex need) → **blocks highTask indirectly**
+
+With `configUSE_MUTEXES` and priority inheritance, `lowTask` temporarily runs at `highTask` priority.
+
+### Deadlock scenario
+```
+taskA: Take(M1) → wait(M2)
+taskB: Take(M2) → wait(M1)
+```
+**Fix:** Global lock ordering — always M1 then M2.
+
+### Detection
+- `xSemaphoreTake(m, timeout)` — never infinite wait in debug
+- Watchdog timer
+- GPIO heartbeat stops
+
+---
+
+## Practice
+
+**Part A — Inversion:** Run `USE_DEADLOCK_DEMO = 0` in freertos.c  
+**Part B — Deadlock:** Set `USE_DEADLOCK_DEMO = 1`, observe hang, then apply fix.
+
+## Verify
+- [ ] Part A: UART shows high task completes
+- [ ] Part B: hang; after lock ordering fix, runs

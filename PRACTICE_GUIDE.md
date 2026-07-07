@@ -487,3 +487,14 @@ Stack check     uxTaskGetStackHighWaterMark(NULL)
 | 10 | `06_stack_monitor/` | `freertos_additions.c` |
 
 **Daily log template:** `PRACTICE_LOG.md`
+
+---
+
+## Continue to Advanced Track (Days 11–20)
+
+After completing Day 10:
+
+- **[ADVANCED_PRACTICE_GUIDE.md](ADVANCED_PRACTICE_GUIDE.md)** — event groups, notifications, stream buffers, deadlock, capstone
+- **[THEORY_REFERENCE.md](THEORY_REFERENCE.md)** — full concept deep-dive
+- **[projects/Advanced_FreeRTOS_Lab/](projects/Advanced_FreeRTOS_Lab/)** — Day 20 modular full project
+- **[PRACTICE_LOG_ADVANCED.md](PRACTICE_LOG_ADVANCED.md)** — advanced daily journal

@@ -1,85 +1,114 @@
-# FreeRTOS Practice — STM32F411RE + STM32CubeIDE
+# FreeRTOS Practice — STM32F411RE (Basic + Advanced)
 
-**Start here:** [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) — full 10-day guide with **Theory + Practice** for each day.
-
-**Track progress:** [`PRACTICE_LOG.md`](PRACTICE_LOG.md)
+Complete hands-on curriculum: **20 days**, **13 examples**, **1 full capstone project**.
 
 ---
 
-## What is in this repo?
+## Learning Paths
 
-| File / Folder | Purpose |
-|---------------|---------|
-| `PRACTICE_GUIDE.md` | Master guide — theory, steps, verify, modify per day |
-| `PRACTICE_LOG.md` | Daily journal template |
-| `examples/01..06/` | Complete code + per-example README |
-| `examples/07_uart_isr_queue/` | Optional Day 9 UART challenge |
+| Track | Guide | Days | Level |
+|-------|-------|------|-------|
+| **Basic** | [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) | 1–10 | Tasks → mutex → timers |
+| **Advanced** | [`ADVANCED_PRACTICE_GUIDE.md`](ADVANCED_PRACTICE_GUIDE.md) | 11–20 | Event groups → capstone |
+| **Theory** | [`THEORY_REFERENCE.md`](THEORY_REFERENCE.md) | All | Deep concepts |
+| **Config** | [`docs/FREERTOS_CONFIG_GUIDE.md`](docs/FREERTOS_CONFIG_GUIDE.md) | 11+ | CubeMX settings |
 
----
-
-## Board pins (NUCLEO-F411RE)
-
-| Pin | Function |
-|-----|----------|
-| PA5 | LD2 green LED |
-| PC13 | User button (active low) |
-| PA2/PA3 | USART2 TX/RX (115200) |
+**Logs:** [`PRACTICE_LOG.md`](PRACTICE_LOG.md) | [`PRACTICE_LOG_ADVANCED.md`](PRACTICE_LOG_ADVANCED.md)
 
 ---
 
-## How to practice (summary)
+## Full Capstone Project (Day 20)
 
-1. Create **one** CubeMX project: `FreeRTOS_Practice` (see PRACTICE_GUIDE setup)
-2. Each day: read **Theory** → copy example files → **Verify** on board → **Modify**
-3. Only edit inside `USER CODE BEGIN/END` blocks in CubeIDE
-4. Fill `PRACTICE_LOG.md` after each session
+**[`projects/Advanced_FreeRTOS_Lab/`](projects/Advanced_FreeRTOS_Lab/)**
 
----
-
-## Example map
-
-| Day | Topic | Folder |
-|-----|-------|--------|
-| 1–3 | Tasks, delay | `01_basic_multi_task` |
-| 4 | Queues | `02_queue_button_led` |
-| 6 | Mutex | `03_mutex_uart_printf` |
-| 5,8,9 | Timer, sem, ISR | `04_timer_semaphore_isr` |
-| 7 | Counting sem | `05_counting_semaphore` |
-| 10 | Stack monitor | `06_stack_monitor` |
-
----
-
-## Files to copy each day
-
+Modular production-style layout:
 ```
-CubeIDE project                    This repo
-─────────────────────────────────  ─────────────────────────
-Core/Src/freertos.c           ←    examples/XX/freertos.c
-Core/Src/main.c (USER CODE)   ←    examples/XX/main_user_code.c
-Core/Src/syscalls.c           ←    examples/03/syscalls_snippet.c (Day 6+)
+App/
+  app_command.c   — Stream buffer CLI
+  app_sensor.c    — Timer + queue
+  app_events.c    — Event group + notifications
+  app_monitor.c   — Stack/heap monitor
+common/
+  uart_debug.c    — Mutex-safe printf
+  freertos_utils.c
 ```
 
 ---
 
-## CubeMX FreeRTOS defaults
+## All Examples
 
-| Setting | Value |
-|---------|-------|
-| Interface | CMSIS_V2 |
-| `configTOTAL_HEAP_SIZE` | 15360 |
-| `configUSE_MUTEXES` | 1 |
-| `configUSE_TIMERS` | 1 |
-| `configCHECK_FOR_STACK_OVERFLOW` | 2 |
+### Basic (Days 1–10)
+| # | Folder | Topic |
+|---|--------|-------|
+| 01 | `01_basic_multi_task` | Tasks, priorities, delay |
+| 02 | `02_queue_button_led` | Queues + EXTI |
+| 03 | `03_mutex_uart_printf` | Mutex |
+| 04 | `04_timer_semaphore_isr` | Timer + semaphore |
+| 05 | `05_counting_semaphore` | Resource pool |
+| 06 | `06_stack_monitor` | Stack/heap |
+| 07 | `07_uart_isr_queue` | UART ISR challenge |
+
+### Advanced (Days 11–20)
+| # | Folder | Topic |
+|---|--------|-------|
+| 08 | `08_event_groups` | Multi-condition sync |
+| 09 | `09_task_notifications` | Lightweight signals |
+| 10 | `10_stream_buffer` | UART CLI |
+| 11 | `11_queue_set` | Multiplexed queue wait |
+| 12 | `12_deadlock_demo` | Inversion + deadlock |
+| 13 | `13_static_allocation` | Static queues |
+| **★** | `projects/Advanced_FreeRTOS_Lab` | **Full integrated project** |
 
 ---
 
-## Help
+## How to Practice (both sides)
 
-| Problem | Solution |
-|---------|----------|
-| Hard fault | Increase heap or task stack |
-| Garbled UART | Use mutex (Example 03) |
-| Button toggles 5× | Increase `DEBOUNCE_MS` |
-| Task not running | Nothing blocking after `osKernelStart()` |
+### Theory side (before coding)
+1. Read day section in `PRACTICE_GUIDE.md` or `ADVANCED_PRACTICE_GUIDE.md`
+2. Read matching section in `THEORY_REFERENCE.md`
+3. Read `examples/XX/README.md`
 
-Full debugging and experiments: **PRACTICE_GUIDE.md**
+### Code side (hands-on)
+1. Create / reuse CubeMX project `FreeRTOS_Practice`
+2. Copy `freertos.c` + `main_user_code.c` for that day
+3. Advanced: add `common/*.c` and `app/*.c` modules
+4. Build → flash → verify checklist
+5. Run **Modify** experiments in README
+6. Fill practice log
+
+### Files you edit in CubeIDE
+```
+Core/Src/freertos.c      ← main logic each day
+Core/Src/main.c          ← USER CODE blocks only
+Core/Src/uart_debug.c    ← common/ (Day 6+)
+App/Src/*.c              ← capstone only
+```
+
+---
+
+## Suggested Schedule
+
+| Week | Days | Goal |
+|------|------|------|
+| 1 | 1–5 | Tasks, queues, semaphores |
+| 2 | 6–10 | Mutex, timers, monitoring |
+| 3 | 11–15 | Event groups, stream buffer, deadlock |
+| 4 | 16–20 | DMA, static alloc, **capstone** |
+
+---
+
+## Board Pins (NUCLEO-F411RE)
+
+| Pin | Use |
+|-----|-----|
+| PA5 | LD2 LED |
+| PC13 | User button |
+| PA2/PA3 | USART2 |
+
+---
+
+## Next Step
+
+**Today:** Open [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) Day 1 if new, or [`ADVANCED_PRACTICE_GUIDE.md`](ADVANCED_PRACTICE_GUIDE.md) Day 11 if basics done.
+
+**End goal:** Complete [`projects/Advanced_FreeRTOS_Lab/README.md`](projects/Advanced_FreeRTOS_Lab/README.md) capstone.
