@@ -1,23 +1,29 @@
-# FreeRTOS Practice — STM32F411RE (Basic + Advanced)
+# Embedded Automotive BSP Developer Prep — STM32F411RE
 
-Complete hands-on curriculum: **20 days**, **13 examples**, **1 full capstone project**.
+Full interview-prep system: **embedded C**, **DSA**, **FreeRTOS**, **automotive protocols (CAN/J1939/ISO-TP/UDS)**, and hardware integration on a NUCLEO-F411RE.
+
+**New here? Start at [`MASTER_STUDY_PLAN.md`](MASTER_STUDY_PLAN.md)** — it sequences everything below into a 10-week program and is the single source of truth for "what do I do next."
 
 ---
 
 ## Learning Paths
 
-| Track | Guide | Days | Level |
-|-------|-------|------|-------|
-| **Basic** | [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) | 1–10 | Tasks → mutex → timers |
-| **Advanced** | [`ADVANCED_PRACTICE_GUIDE.md`](ADVANCED_PRACTICE_GUIDE.md) | 11–20 | Event groups → capstone |
-| **Theory** | [`THEORY_REFERENCE.md`](THEORY_REFERENCE.md) | All | Deep concepts |
-| **Interview Prep** | [`FREERTOS_INTERVIEW_PREP.md`](FREERTOS_INTERVIEW_PREP.md) | All | Oral questions + coding drills |
-| **Embedded C** | [`c_practice/`](c_practice/) | 15 topics | C fundamentals for firmware |
-| **DSA in C** | [`dsa_practice/`](dsa_practice/) | 10 topics | Data structures + algorithms |
+| Track | Guide | Scope | Level |
+|-------|-------|-------|-------|
+| **Master Plan** | [`MASTER_STUDY_PLAN.md`](MASTER_STUDY_PLAN.md) | Weeks 1–10 | Sequences every track below |
+| **Embedded C** | [`c_practice/`](c_practice/) | 15 topics, 180 programs | C fundamentals for firmware |
+| **DSA in C** | [`dsa_practice/`](dsa_practice/) | 10 topics, 100 programs | Data structures + algorithms |
+| **FreeRTOS Basic** | [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) | Days 1–10 | Tasks → mutex → timers |
+| **FreeRTOS Advanced** | [`ADVANCED_PRACTICE_GUIDE.md`](ADVANCED_PRACTICE_GUIDE.md) | Days 11–20 | Event groups → capstone |
+| **FreeRTOS Theory** | [`THEORY_REFERENCE.md`](THEORY_REFERENCE.md) | All | Deep concepts |
+| **FreeRTOS Interview Prep** | [`FREERTOS_INTERVIEW_PREP.md`](FREERTOS_INTERVIEW_PREP.md) | All | Oral questions + coding drills |
+| **Automotive Protocols** | [`automotive_protocols/`](automotive_protocols/) | 7 topics, ~72 programs | UART/SPI/I2C → CAN → J1939 → ISO-TP → UDS |
+| **Automotive Interview Prep** | [`AUTOMOTIVE_INTERVIEW_PREP.md`](AUTOMOTIVE_INTERVIEW_PREP.md) | All | Oral questions + coding drills |
+| **Hardware Integration** | [`examples/14_stm32_can_bxcan/`](examples/14_stm32_can_bxcan/) | Day 10 (protocol plan) | bxCAN ISR → J1939 decode task |
 | **Debugger** | [`docs/DEBUGGING_GUIDE.md`](docs/DEBUGGING_GUIDE.md) | All | SWD/ST-LINK, step in/out, watch |
 | **Config** | [`docs/FREERTOS_CONFIG_GUIDE.md`](docs/FREERTOS_CONFIG_GUIDE.md) | 11+ | CubeMX settings |
 
-**Logs:** [`PRACTICE_LOG.md`](PRACTICE_LOG.md) | [`PRACTICE_LOG_ADVANCED.md`](PRACTICE_LOG_ADVANCED.md)
+**Logs:** [`PRACTICE_LOG.md`](PRACTICE_LOG.md) | [`PRACTICE_LOG_ADVANCED.md`](PRACTICE_LOG_ADVANCED.md) | [`automotive_protocols/PRACTICE_LOG_PROTOCOLS.md`](automotive_protocols/PRACTICE_LOG_PROTOCOLS.md)
 
 ---
 
@@ -62,6 +68,27 @@ common/
 | 12 | `12_deadlock_demo` | Inversion + deadlock |
 | 13 | `13_static_allocation` | Static queues |
 | **★** | `projects/Advanced_FreeRTOS_Lab` | **Full integrated project** |
+
+### Hardware Integration (Week 10)
+| # | Folder | Topic |
+|---|--------|-------|
+| 14 | [`14_stm32_can_bxcan`](examples/14_stm32_can_bxcan/) | bxCAN ISR → J1939 decode task, ties FreeRTOS to `automotive_protocols/` |
+
+---
+
+## Automotive Protocols Track
+
+| # | Folder | Focus |
+|---|--------|-------|
+| 01 | [`topic_01_serial_comm_basics`](automotive_protocols/topic_01_serial_comm_basics/) | UART/SPI/I2C for ECU/diagnostic-connector links |
+| 02 | [`topic_02_can_bus`](automotive_protocols/topic_02_can_bus/) | CAN 2.0A/B framing, arbitration, bit timing, error states |
+| 03 | [`topic_03_j1939_transport`](automotive_protocols/topic_03_j1939_transport/) | J1939 PGN/SPN, 29-bit ID, BAM/RTS-CTS transport |
+| 04 | [`topic_04_iso_tp`](automotive_protocols/topic_04_iso_tp/) | ISO 15765-2 segmentation/reassembly, flow control |
+| 05 | [`topic_05_uds`](automotive_protocols/topic_05_uds/) | UDS session control, security access, DTCs |
+| 06 | [`topic_06_uds_bootloader_flashing`](automotive_protocols/topic_06_uds_bootloader_flashing/) | Full ECU reflash sequence |
+| 07 | [`topic_07_lin_flexray_ethernet`](automotive_protocols/topic_07_lin_flexray_ethernet/) | LIN, FlexRay, Automotive Ethernet survey |
+
+Details: [`automotive_protocols/README.md`](automotive_protocols/README.md)
 
 ---
 
@@ -115,8 +142,14 @@ App/Src/*.c              ← capstone only
 
 ## Next Step
 
-**Today:** Open [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) Day 1 if new, or [`ADVANCED_PRACTICE_GUIDE.md`](ADVANCED_PRACTICE_GUIDE.md) Day 11 if basics done.
+**Not sure where to start? Open [`MASTER_STUDY_PLAN.md`](MASTER_STUDY_PLAN.md)** — it tells you exactly which week/folder to be in based on what you've already completed.
 
-**End goal:** Complete [`projects/Advanced_FreeRTOS_Lab/README.md`](projects/Advanced_FreeRTOS_Lab/README.md) capstone.
+**Today (if starting cold):** `c_practice/topic_01_types_variables`, then `dsa_practice/topic_01_arrays` (weeks 1–4), before touching FreeRTOS.
 
-**Interview goal:** Work through [`FREERTOS_INTERVIEW_PREP.md`](FREERTOS_INTERVIEW_PREP.md) and explain every synchronization choice without notes.
+**If C/DSA done:** Open [`PRACTICE_GUIDE.md`](PRACTICE_GUIDE.md) Day 1, or [`ADVANCED_PRACTICE_GUIDE.md`](ADVANCED_PRACTICE_GUIDE.md) Day 11 if FreeRTOS basics are done.
+
+**If FreeRTOS done:** Start `automotive_protocols/topic_01_serial_comm_basics` (week 7).
+
+**End goal:** Complete [`projects/Advanced_FreeRTOS_Lab/README.md`](projects/Advanced_FreeRTOS_Lab/README.md) capstone and [`examples/14_stm32_can_bxcan`](examples/14_stm32_can_bxcan/) hardware integration.
+
+**Interview goal:** Work through both [`FREERTOS_INTERVIEW_PREP.md`](FREERTOS_INTERVIEW_PREP.md) and [`AUTOMOTIVE_INTERVIEW_PREP.md`](AUTOMOTIVE_INTERVIEW_PREP.md) and explain every choice without notes — see the "Definition of ready to interview" checklist in [`MASTER_STUDY_PLAN.md`](MASTER_STUDY_PLAN.md).
