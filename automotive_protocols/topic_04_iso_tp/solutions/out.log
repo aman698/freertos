@@ -1,0 +1,31 @@
+Using built-in specs.
+COLLECT_GCC=C:\Program Files (x86)\STMicroelectronics\st_toolset\stvd\MinGW\bin\gcc.exe
+COLLECT_LTO_WRAPPER=c:/program files (x86)/stmicroelectronics/st_toolset/stvd/mingw/bin/../libexec/gcc/mingw32/4.5.0/lto-wrapper.exe
+Target: mingw32
+Configured with: ../gcc-4.5.0/configure --enable-languages=c,c++,ada,fortran,objc,obj-c++ --disable-sjlj-exceptions --with-dwarf2 --enable-shared --enable-libgomp --disable-win32-registry --enable-libstdcxx-debug --enable-version-specific-runtime-libs --disable-werror --build=mingw32 --prefix=/mingw
+Thread model: win32
+gcc version 4.5.0 (GCC) 
+COLLECT_GCC_OPTIONS='-v' '-Wall' '-Wextra' '-std=c99' '-o' 'ex01.exe' '-mtune=i386' '-march=i386'
+ c:/program files (x86)/stmicroelectronics/st_toolset/stvd/mingw/bin/../libexec/gcc/mingw32/4.5.0/cc1.exe -quiet -v -iprefix c:\program files (x86)\stmicroelectronics\st_toolset\stvd\mingw\bin\../lib/gcc/mingw32/4.5.0/ ex01_single_frame.c -quiet -dumpbase ex01_single_frame.c -mtune=i386 -march=i386 -auxbase ex01_single_frame -Wall -Wextra -std=c99 -version -o C:\Users\AMANLA~1\AppData\Local\Temp\ccMd2lS6.s
+GNU C (GCC) version 4.5.0 (mingw32)
+	compiled by GNU C version 4.5.0, GMP version 5.0.1, MPFR version 2.4.1, MPC version 0.8.1
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "c:\program files (x86)\stmicroelectronics\st_toolset\stvd\mingw\bin\../lib/gcc/mingw32/4.5.0/include"
+ignoring nonexistent directory "c:\program files (x86)\stmicroelectronics\st_toolset\stvd\mingw\bin\../lib/gcc/mingw32/4.5.0/include-fixed"
+ignoring nonexistent directory "c:\program files (x86)\stmicroelectronics\st_toolset\stvd\mingw\bin\../lib/gcc/mingw32/4.5.0/../../../../mingw32/include"
+ignoring nonexistent directory "c:/mingw/include"
+ignoring nonexistent directory "/mingw/include"
+ignoring nonexistent directory "c:/program files (x86)/stmicroelectronics/st_toolset/stvd/mingw/lib/../lib/gcc/mingw32/4.5.0/include"
+ignoring nonexistent directory "c:/program files (x86)/stmicroelectronics/st_toolset/stvd/mingw/lib/../lib/gcc/mingw32/4.5.0/include-fixed"
+ignoring nonexistent directory "c:/program files (x86)/stmicroelectronics/st_toolset/stvd/mingw/lib/../lib/gcc/mingw32/4.5.0/../../../../mingw32/include"
+ignoring nonexistent directory "/mingw/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ c:\program files (x86)\stmicroelectronics\st_toolset\stvd\mingw\bin\../lib/gcc/mingw32/4.5.0/../../../../include
+End of search list.
+GNU C (GCC) version 4.5.0 (mingw32)
+	compiled by GNU C version 4.5.0, GMP version 5.0.1, MPFR version 2.4.1, MPC version 0.8.1
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 6773400e8bc9df4b012089071ac4c86b
+ex01_single_frame.c:3:20: fatal error: stdint.h: No such file or directory
+compilation terminated.
